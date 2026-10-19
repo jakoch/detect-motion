@@ -1,0 +1,31 @@
+# Set default behavior to automatically normalize line endings.
+* text=auto
+
+# Explicit declarations for text files
+*.py text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.cfg text eol=lf
+*.ini text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.avi binary
+*.mp4 binary
+*.mov binary
+*.mkv binary
+*.webm binary
+*.so binary
+*.whl binary
+*.zip binary
+
+# Linguist: generated files
+*.lock linguist-generated
+uv.lock linguist-generated
