@@ -22,7 +22,7 @@ RUN echo "Install packages" && \
     libsm6 \
     libxext6 \
     libxrender-dev \
-    libgl1-mesa-glx \
+    libgl1 \
     ffmpeg \
     libavcodec-dev \
     libavformat-dev \

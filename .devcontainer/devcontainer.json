@@ -24,16 +24,16 @@
     }
   },
   "mounts": [
-    "source=${localEnv:VIDEO_INPUT:-${localWorkspaceFolder}/videos},target=/data/video,type=bind,consistency=cached",
-    "source=${localEnv:VIDEO_OUTPUT:-${localWorkspaceFolder}/videos-keep},target=/data/keep,type=bind,consistency=cached",
-    "source=${localEnv:VIDEO_QUARANTINE:-${localWorkspaceFolder}/videos-quarantine},target=/data/quarantine,type=bind,consistency=cached"
+    "source=${localWorkspaceFolder}/videos,target=/data/video,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/videos-keep,target=/data/keep,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/videos-quarantine,target=/data/quarantine,type=bind,consistency=cached"
   ],
-  "postCreateCommand": "pip install --no-cache-dir -e /workspaces/detect-motion",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/src && pip install --no-cache-dir -e /workspaces/src",
   "postStartCommand": "echo 'detect-motion ready. Run: detect-motion --help'",
   "remoteUser": "vscode",
   "overrideCommand": true,
   "containerEnv": {
-    "PYTHONPATH": "/workspaces/detect-motion/src"
+    "PYTHONPATH": "/workspaces/src/src"
   },
   "runArgs": [
     "--cap-add=SYS_PTRACE",
