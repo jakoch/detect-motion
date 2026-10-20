@@ -1,0 +1,42 @@
+{
+  "name": "detect-motion",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "PYTHON_VERSION": "3.13-slim-trixie"
+    }
+  },
+  "workspaceFolder": "/workspaces/detect-motion",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.ruffEnabled": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff"
+      }
+    }
+  },
+  "mounts": [
+    "source=${localEnv:VIDEO_INPUT:-${localWorkspaceFolder}/videos},target=/data/video,type=bind,consistency=cached",
+    "source=${localEnv:VIDEO_OUTPUT:-${localWorkspaceFolder}/videos-keep},target=/data/keep,type=bind,consistency=cached",
+    "source=${localEnv:VIDEO_QUARANTINE:-${localWorkspaceFolder}/videos-quarantine},target=/data/quarantine,type=bind,consistency=cached"
+  ],
+  "postCreateCommand": "pip install --no-cache-dir -e /workspaces/detect-motion",
+  "postStartCommand": "echo 'detect-motion ready. Run: detect-motion --help'",
+  "remoteUser": "vscode",
+  "overrideCommand": true,
+  "containerEnv": {
+    "PYTHONPATH": "/workspaces/detect-motion/src"
+  },
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt=seccomp=unconfined"
+  ]
+}
