@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "detect-motion"
+version = "2.0.0"
+description = "Detect which videos contain real movement, using OpenCV"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [{ name = "Jens A. Koch" }]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["motion-detection", "opencv", "video", "computer-vision"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+
+dependencies = [
+    "opencv-python>=4.0",
+    "numpy>=1.20",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.9",
+    "pytest>=8",
+    "mypy>=1.10",
+    "types-numpy",
+]
+
+[project.scripts]
+detect-motion = "detect_motion.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "R",    # flake8-refactor
+    "S",    # flake8-bandit (security)
+    "UP",   # pyupgrade
+	"C4",   # flake8-comprehensions
+    "B",    # flake8-bugbear
+	"SIM",  # flake8-simplify
+    "D",    # pydocstyle
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B008",   # function calls in default args (mutable defaults)
+    "N802",   # class naming (VideoResult is fine)
+    "D203",   # conflicts with D211: no blank line before class docstring
+    "D213",   # conflicts with D212: summary on the first line
+    "D413",   # conflicts with D412 (blank line after section)
+    "S108",   # subprocess-like (not applicable)
+    "S311",   # random not secure (not applicable)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D102", "D103", "S101", "PLR2004"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-q", "--tb=short"]
+log_cli = false
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = false
+warn_unused_ignores = false
+disallow_untyped_defs = false
+disallow_any_generics = false
+disable_error_code = ["assignment", "operator", "no-untyped-def", "no-any-return", "call-overload", "index"]
+
+

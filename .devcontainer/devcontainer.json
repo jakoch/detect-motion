@@ -1,0 +1,43 @@
+{
+	"name": "detect-motion",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"PYTHON_VERSION": "3.13-slim-trixie"
+		}
+	},
+	"workspaceFolder": "/workspaces/detect-motion",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"charliermarsh.ruff"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/opt/venv/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.ruffEnabled": true,
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "charliermarsh.ruff"
+			}
+		}
+	},
+	"mounts": [
+		"source=${localWorkspaceFolder}/videos,target=/data/video,type=bind,consistency=cached",
+		"source=${localWorkspaceFolder}/videos-keep,target=/data/keep,type=bind,consistency=cached",
+		"source=${localWorkspaceFolder}/videos-drop,target=/data/drop,type=bind,consistency=cached"
+	],
+	"postCreateCommand": "uv sync --frozen --extra dev",
+	"postStartCommand": "echo 'detect-motion ready. Run: detect-motion --help'",
+	"remoteUser": "vscode",
+	"overrideCommand": true,
+	"containerEnv": {
+		"DETECT_MOTION_PASSTHROUGH": "1"
+	},
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt=seccomp=unconfined"
+	]
+}
